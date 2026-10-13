@@ -18,10 +18,10 @@ items_db: dict[int, ItemResponse] = { 1: ItemResponse(id=1, name="Laptop", price
 
 if item is None: raise HTTPException(status_code=404, detail="Item not found")
 
-return item
+	return item
 
 @app.post("/items", statuscode=201) def createitem(item: Item): newid = max(itemsdb.keys(), default=0) + 1
 
-createditem = ItemResponse( id=newid, name=item.name, price=item.price, )
+	createditem = ItemResponse( id=newid, name=item.name, price=item.price, )
 
 itemsdb[newid] = createditem return createditem
