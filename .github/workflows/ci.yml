@@ -1,27 +1,49 @@
 name: CI
 
-on: push: pullrequest: workflowdispatch:
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
 
-jobs: stage: runs-on: ubuntu-latest steps: - uses: actions/checkout@v4
+jobs:
+  stage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
 
-- uses: actions/setup-python@v5 with: python-version: "3.12"
+  build:
+    runs-on: ubuntu-latest
+    needs: stage
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -m compileall -q app.py main_test.py
 
-- run: pip install -r requirements.txt
+  run:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: uvicorn app:app --host 127.0.0.1 --port 8000 &
 
-build: runs-on: ubuntu-latest needs: stage steps: - uses: actions/checkout@v4
-
-- uses: actions/setup-python@v5 with: python-version: "3.12"
-
-- run: pip install -r requirements.txt - run: python -m compileall -q app.py main_test.py
-
-run: runs-on: ubuntu-latest needs: build steps: - uses: actions/checkout@v4
-
-- uses: actions/setup-python@v5 with: python-version: "3.12"
-
-- run: pip install -r requirements.txt - run: uvicorn app:app --host 127.0.0.1 --port 8000 &
-
-test: runs-on: ubuntu-latest needs: run steps: - uses: actions/checkout@v4
-
-- uses: actions/setup-python@v5 with: python-version: "3.12"
-
-- run: pip install -r requirements.txt - run: python -m pytest main_test.py -v
+  test:
+    runs-on: ubuntu-latest
+    needs: run
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -m pytest main_test.py -v
