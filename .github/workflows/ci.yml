@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  stage:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -14,8 +14,8 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
+      - run: python -m compileall -q app.py main_test.py
 
- 
   run:
     runs-on: ubuntu-latest
     needs: build
