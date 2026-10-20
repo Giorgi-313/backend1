@@ -21,7 +21,7 @@ items_db: dict[int, ItemResponse] = {
 
 @app.get("/")
 def home():
-    return {"message": "Welcome to the Python API"}
+    return {"message": "Welcome to the Python API - DevOps Live!"}
 
 
 @app.get("/health")

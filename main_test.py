@@ -20,9 +20,8 @@ def test_home_endpoint():
 
     assert response.status_code == 200
     assert response.json() == {
-        "message": "Welcome to the Python API"
+        "message": "Welcome to the Python API - DevOps Live!"
     }
-
 
 def test_health_endpoint():
     response = client.get("/health")
