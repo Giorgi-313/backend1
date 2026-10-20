@@ -18,10 +18,9 @@ items_db: dict[int, ItemResponse] = {
     2: ItemResponse(id=2, name="Mouse", price=25.50),
 }
 
-
 @app.get("/")
 def home():
-    return {"message": "Welcome to the Python API - DevOps Live!"}
+    return {"message": "Welcome to the Python API - Pipeline Fully Automated!"}
 
 
 @app.get("/health")
