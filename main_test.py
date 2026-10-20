@@ -20,7 +20,7 @@ def test_home_endpoint():
 
     assert response.status_code == 200
     assert response.json() == {
-        "message": "Welcome to the Python API - DevOps Live!"
+        "message": "Welcome to the Python API - Pipeline Fully Automated!"
     }
 
 def test_health_endpoint():
